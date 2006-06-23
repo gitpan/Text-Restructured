@@ -13,7 +13,7 @@ use ExtUtils::MakeMaker;
 
 ## Note: The version number for the entire release is specified here and
 ## propagated.  Be sure to edit for every release.
-my $Version = "0.003_011";
+my $Version = "0.003_012";
 
 use vars qw($opt_f $opt_h $opt_k);
 my $OUTPUT_CFG_FILE = $opt_f = 'config.log';
@@ -339,7 +339,7 @@ RE${Writer} = $(TESTBIN)/re${suffix}
 
 # Checking ${writer} with regular expression comparison
 %.chk:	%.rst %.${suffix}re $(PREST) $(${Writer}WRT) $(PMFILES)
-	@$(PERL) $(PERL_FLAGS) ${prest_cmd} | $(DIFFRE) $*.${suffix}re - > $@
+	@$(PERL) $(PERL_FLAGS) ${prest_cmd} | $(PERL) $(DIFFRE) $*.${suffix}re - > $@
 
 # Checking ${writer} with straight diff
 %.chk:	%.rst %.${suffix}c $(PREST) $(${Writer}WRT) $(PMFILES)
