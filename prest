@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl -w
 
-# $Id: prest 4580 2006-05-30 22:02:21Z mnodine $
+# $Id: prest 4648 2006-07-05 15:47:45Z mnodine $
 
 =pod
 =begin reST
@@ -88,10 +88,10 @@ main();
 
 BEGIN {
     use Text::Restructured::PrestConfig;
-    $SVNID = '$Id: prest 4580 2006-05-30 22:02:21Z mnodine $ ';
+    $SVNID = '$Id: prest 4648 2006-07-05 15:47:45Z mnodine $ ';
     $SVNNAME = '$URL: https://mnodine@svn.berlios.de/svnroot/repos/docutils/trunk/prest/prest $ ';
     my $version = $Text::Restructured::PrestConfig::VERSION;
-    $version =~ s/_/./g;
+    $version =~ s/(\d\d\d)/$1./g;
     $version =~ s/(\d+)/$1+0/ge;
     $VERSION = $version;
     $SVNID =~ /Id: (\S+?) \S+ (\d+)/;
