@@ -1,6 +1,6 @@
 package Text::Restructured::DOM;
 
-# $Id: DOM.pm 4720 2006-09-05 18:57:07Z mnodine $
+# $Id: DOM.pm 4859 2007-01-08 16:54:20Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -262,6 +262,24 @@ sub splice : method {
     @PARENT{@doms} = ($dom) x @doms;
     return splice(@{$dom->{content}}, $index, $n, @doms);
 }
+
+# INSTANCE METHOD.
+# Substitutes a different set of DOM objects for a given DOM object in the
+# contents of its parent.
+# Arguments: list of DOM objects
+# Returns: None
+sub substitute : method {
+    my($dom, @new_doms) = @_;
+
+    my $parent = $dom->parent;
+    return unless $parent;
+    my $index = $parent->index($dom);
+    return if $index < 0;
+    splice @{$parent->{content}}, $index, 1, @new_doms;
+    delete $PARENT{$dom};
+    @PARENT{@new_doms} = ($parent) x @new_doms;
+}
+
 
 # Parses a file in the DOM (pseudo-XML) format.
 # Arguments: First line of file

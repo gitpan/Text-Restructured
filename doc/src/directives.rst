@@ -542,11 +542,8 @@ that begins in one physical paragraph and ends in another.
    like HTML's ``<div>`` element.  Do not use it only to group a
    sequence of elements, or you may get unexpected results.
 
-   If you happen to need a generic block-level container, please
-   describe your use-case in an email to the Docutils-users_ mailing
-   list.
-
-   .. _Docutils-users: ../../user/mailing-lists.html#docutils-users
+   If you need a generic block-level container, please use the
+   container_ directive, described below.
 
 Compound paragraphs are typically rendered as multiple distinct text
 blocks, with the possibility of variations to emphasize their logical
@@ -600,6 +597,37 @@ The following option is recognized:
 
 .. _mstyle attribute: ascii-mathml.xhtml#attributes-for-mstyle
 
+Container
+=========
+
+:Directive Type: "container"
+:Doctree Element: container
+:Directive Arguments: One or more, optional (class names).
+:Directive Options: None.
+:Directive Content: Interpreted as body elements.
+
+(New in Docutils 0.3.10)
+
+The "container" directive surrounds its contents (arbitrary body
+elements) with a generic block-level "container" element.  Combined
+with the optional "class_" attribute argument(s), this is an extension
+mechanism for users & applications.  For example::
+
+    .. container:: custom
+
+       This paragraph might be rendered in a custom way.
+
+Parsing the above results in the following pseudo-XML::
+
+    <container classes="custom">
+        <paragraph>
+            This paragraph might be rendered in a custom way.
+
+The "container" directive is the equivalent of HTML's ``<div>``
+element.  It may be used to group a sequence of elements for user- or
+application-specific purposes.
+
+
 --------
  Tables
 --------
@@ -651,6 +679,12 @@ CSV Table
 :Directive Arguments: 1, optional (table title).
 :Directive Options: Possible.
 :Directive Content: A CSV (comma-separated values) table.
+
+.. WARNING::
+
+   The "csv-table" directive's ":file:" and ":url:" options represent
+   a potential security holes.  They can be disabled with the
+   "file_insertion_enabled" runtime setting.
 
 (New in Docutils 0.3.4)
 
@@ -906,6 +940,10 @@ The following options are recognized:
     will produce "3.2.1", "3.2.2", "3.2.2.1", and so on.  Note that
     any separating punctuation (in the example, a period, ".") must be
     explicitly provided.  The default is no prefix.
+
+``prefix-title`` : flag
+    Specifies whether a prefix should also be appended to the title
+    for the document.
 
 ``suffix`` : string
     An arbitrary string that is appended to the automatically
@@ -1223,6 +1261,16 @@ is omitted.  This behavior can be useful for putting comments in a
 reStructuredText document that should not be propagated to the output
 as comments.
 
+The "if" directive defines the following global variables:
+
+``$SOURCE``
+   The name of the source file containing the perl directive.
+``$LINENO``
+   The line number of the perl directive within ``$SOURCE``.
+``@INCLUDES``
+   Array of reference to array of [file name, line number] pairs that
+   have included the current file.
+
 The "if" directive processes the following define:
 
 -D perl='perl-code'
@@ -1249,14 +1297,17 @@ The "perl" directive executes perl code and interpolates whatever is
 returned by the execution.  The perl code can be placed either in
 the arguments or the contents section (or both).
 
-The perl directive defines the following global variables:
+The "perl" directive defines the following global variables:
 
 ``$SOURCE``
    The name of the source file containing the perl directive.
 ``$LINENO``
    The line number of the perl directive within ``$SOURCE``.
+``@INCLUDES``
+   Array of reference to array of [file name, line number] pairs that
+   have included the current file.
 
-The following defines are processed by the perl directive:
+The following defines are processed by the "perl" directive:
 
 -D perl='perl-code'
                 Specifies some perl code that is executed prior
@@ -1270,6 +1321,10 @@ The following defines are processed by the perl directive:
                 be used in a perl block.
 
 The following options are recognized:
+
+``file`` : string
+    Uses the text from the file represented by the string.  Both
+    arguments and contents must be empty if :file: is used.
 
 ``literal`` : flag (empty)
     The entire returned text is inserted into the document as a single
@@ -1323,6 +1378,13 @@ Including an External Document Fragment
 :Directive Arguments: One, required (path to the file to include).
 :Directive Options: Possible.
 :Directive Content: None.
+
+.. WARNING::
+
+   The "include" directive represents a potential security hole.  It
+   can be disabled with the "file_insertion_enabled_" runtime setting.
+
+   .. _file_insertion_enabled: ../../user/config.html#file-insertion-enabled
 
 The "include" directive reads a reStructuredText-formatted text file
 and parses it in the current document's context at the point of the
@@ -1423,6 +1485,12 @@ Raw Data Pass-Through
 :Directive Content: Stored verbatim, uninterpreted.  None (empty) if a
                     "file" or "url" option given.
 
+.. WARNING::
+
+   The "raw" directive represents a potential security hole.  It can
+   be disabled with the "raw_enabled" or "file_insertion_enabled"
+   runtime settings.
+
 .. Caution::
 
    The "raw" directive is a stop-gap measure allowing the author to
@@ -1435,6 +1503,8 @@ Raw Data Pass-Through
    that functionality may be missing from reStructuredText.  Please
    describe your situation in a message to the Docutils-users_ mailing
    list.
+
+   .. _Docutils-users: ../../user/mailing-lists.html#docutils-users
 
 The "raw" directive indicates non-reStructuredText data that is to be
 passed untouched to the Writer.  The names of the output formats are
@@ -1475,6 +1545,9 @@ The following options are recognized:
     The text encoding of the external raw data (file or URL).
     Defaults to the document's encoding (if specified).
 
+``head`` : flag (empty)
+    The raw text gets put into the head material of the document rather
+    than the body (if applicable).
 
 .. _classes:
 
@@ -1551,7 +1624,7 @@ The text above is parsed and transformed into this doctree fragment::
     - However the `CSS1 spec`_ defines identifiers based on the "name"
       token, a tighter interpretation ("flex" tokenizer notation
       below; "latin1" and "escape" 8-bit characters have been replaced
-      with XML entities)::
+      with entities)::
 
           unicode     \\[0-9a-f]{1,4}
           latin1      [&iexcl;-&yuml;]

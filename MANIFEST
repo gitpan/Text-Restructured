@@ -41,7 +41,7 @@ lib/Text/Restructured/Writer/toc.wrt
 lib/Text/Restructured/Writer/xml.wrt
 lib/Text/Restructured/Writer/xref.wrt
 Makefile.PL
-MANIFEST			This list of files
+MANIFEST
 MODIFY.txt
 prest
 README
@@ -819,6 +819,8 @@ t/90_bugs/parse.init/defafteroptlist.rst
 t/90_bugs/parse.init/defotherlist.dom
 t/90_bugs/parse.init/defotherlist.rst
 t/90_bugs/parse.init/Dir.mak
+t/90_bugs/parse.init/embeduri.dom
+t/90_bugs/parse.init/embeduri.rst
 t/90_bugs/parse.init/fakerefinref.dom
 t/90_bugs/parse.init/fakerefinref.rst
 t/90_bugs/parse.init/fakerefintrp.dom
@@ -865,6 +867,9 @@ t/90_bugs/parse.init/quoteinline.dom
 t/90_bugs/parse.init/quoteinline.rst
 t/90_bugs/parse.init/replaceinterp.dom
 t/90_bugs/parse.init/replaceinterp.rst
+t/90_bugs/parse.init/sections.dom
+t/90_bugs/parse.init/sections.rst
+t/90_bugs/parse.init/sections.stderr
 t/90_bugs/parse.init/spaceonlylines.dom
 t/90_bugs/parse.init/spaceonlylines.rst
 t/90_bugs/parse.init/subrefinlineblk.dom
