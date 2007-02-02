@@ -319,8 +319,10 @@ t/70_plugins/code_block.init/code09.rst
 t/70_plugins/code_block.init/code10.dom
 t/70_plugins/code_block.init/code10.rst
 t/70_plugins/code_block.init/code11.dom
+t/70_plugins/code_block.init/code11.r
 t/70_plugins/code_block.init/code11.rst
 t/70_plugins/code_block.init/code12.dom
+t/70_plugins/code_block.init/code12.r
 t/70_plugins/code_block.init/code12.rst
 t/70_plugins/code_block.init/Dir.mak
 t/70_plugins/code_block.init/foo.sh
@@ -798,6 +800,8 @@ t/80_misc/transforms.init/targets_01.rst
 t/90_bugs/html.init/Dir.mak
 t/90_bugs/html.init/hyphencell.myhtml
 t/90_bugs/html.init/hyphencell.rst
+t/90_bugs/html.init/imagesubst.myhtml
+t/90_bugs/html.init/imagesubst.rst
 t/90_bugs/html.init/inlinelit.myhtml
 t/90_bugs/html.init/inlinelit.rst
 t/90_bugs/html.init/method.myhtml
@@ -902,3 +906,4 @@ tbin/retex
 tbin/rexml
 tbin/run_prest
 tbin/uncoverable
+META.yml                                 Module meta-data (added by MakeMaker)
