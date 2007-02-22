@@ -30,17 +30,21 @@ use strict;
 sub new {
     my ($class, $writer_name, $opt) = @_;
 
-    my $writer = bless { opt => $opt };
+    my $writer = bless { opt => { %$opt } };
     # Handle options processing
     foreach (keys %{$opt->{W}}) {
-	$opt->{W}{$_} = 1 if defined $opt->{W}{$_} && $opt->{W}{$_} eq '';
+	$writer->{opt}{W}{$_} = 1
+	    if defined $writer->{opt}{W}{$_} && $writer->{opt}{W}{$_} eq '';
     }
     # Initialize defined variables
-    foreach my $key (keys %{$opt->{W}}) {
+    foreach my $key (keys %{$writer->{opt}{W}}) {
 	(my $var = $key) =~ tr/a-zA-Z0-9/_/c;
 	no strict 'refs';
-	${"Eval_::$var"} = $opt->{W}{$key};
+	${"Text::Restructured::Writer::Eval::$var"} = $writer->{opt}{W}{$key};
     }
+    $writer->{opt}{d} ||= 0;
+    $writer->{opt}{w} = $writer_name;
+    $writer->{opt}{D} = {} unless $writer->{opt}{D};
     $writer->ParseSchema($writer_name);
     $writer->Precompile();
 
@@ -202,7 +206,7 @@ sub TraverseDOM : method {
 # Returns: anonymous subroutine reference
 # Exceptions: Program termination if error in evaluation
 # Uses globals: None
-# Sets globals: ``Eval_::<subname>``
+# Sets globals: ``Text::Restructured::Writer::Eval::<subname>``
 sub DoEval : method {
     my ($self, $str, $line, $subname) = @_;
     my ($file, $lineno) = $line =~ /(.*), line (\d+)/;
@@ -213,12 +217,13 @@ sub DoEval : method {
 	$subname = "$f, line $lineno";
     }
     $subname =~ s/\W/_/g;
-    my $sub = "sub Eval_::$subname {package Eval_;\n $str}";
+    my $sub = "package Text::Restructured::Writer::Eval;sub $subname {\n $str}";
     my $line_directive = defined $self->{opt}{D}{no_line_directives} ? "" :
 	qq(\#line $lineno "$file"\n);
     my $val = eval("$line_directive$sub");
     die "Error: $line: $@" if $@;
-    return \&{$Eval_::{$subname}};
+    $self->{sub}{$subname} = \&{$Text::Restructured::Writer::Eval::{$subname}};
+    return \&{$Text::Restructured::Writer::Eval::{$subname}};
 }
 
 1;

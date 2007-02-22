@@ -13,7 +13,7 @@ use ExtUtils::MakeMaker;
 
 ## Note: The version number for the entire release is specified here and
 ## propagated.  Be sure to edit for every release.
-my $Version = "0.003022";
+my $Version = "0.003023";
 
 use vars qw($opt_f $opt_h $opt_k);
 my $OUTPUT_CFG_FILE = $opt_f = 'config.log';
@@ -102,6 +102,10 @@ rename "$OUTPUT_CFG_FILE", "$OUTPUT_CFG_FILE.bak";
 open (CL, ">$OUTPUT_CFG_FILE") or die "Cannot write to $OUTPUT_CFG_FILE.";
 print CL map(qq('$_'=>'$CONFIG{$_}',\n), sort keys %CONFIG);
 close CL;
+
+##### Figure out what version of make to use.  We *require* GNU make.
+my @path = split /:/, $ENV{PATH};
+my ($make) = grep -x $_, map("$_/gmake", @path), map("$_/make", @path);
 
 ##### Now construct the common makefile
 chomp (my $base = `pwd`);
@@ -200,7 +204,7 @@ if (-f "skip.pl") {
 
 # Now unpack the tests if needed
 if (<test_*.py>) {
-    system "make -s -f ../../Common.mk rsts";
+    system "${make} -s -f ../../Common.mk rsts";
 }
 
 # Figure out what tests to do
@@ -223,11 +227,11 @@ foreach my $test (@tests) {
 	}
 	next TEST if $?
     }
-    my $make_errs = `make -s -f ../../Common.mk $base_test.chk 2>&1`;
+    my $make_errs = `${make} -s -f ../../Common.mk $base_test.chk 2>&1`;
     # Fake around perl 5.8.8 non-disablable warning
     $make_errs =~ s/^Wide character in print.*\n//gm;
     # Remove make messages
-    $make_errs =~ s/^make\[\d\]: (Enter|Leav)ing directory.*\n//gm;
+    $make_errs =~ s/^g?make\[\d\]: (Enter|Leav)ing directory.*\n//gm;
     my $errs = -f "$base_test.stderr" ? `cat $base_test.stderr` : '';
     if ($errs) {
 	# Convert search characters
