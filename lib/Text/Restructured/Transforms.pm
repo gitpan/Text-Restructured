@@ -1,4 +1,4 @@
-# $Id: Transforms.pm 4909 2007-02-02 17:12:10Z mnodine $
+# $Id: Transforms.pm 4935 2007-02-23 19:24:53Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -79,7 +79,7 @@ use strict;
 sub Filter{
     my ($dom, $parser, $details) = @_;
 
-    if ($parser->{opt}{w} eq eval($details->{format}) ||
+    if ("'$parser->{opt}{w}'" eq $details->{format} ||
 	$parser->{opt}{w} eq 'dom') {
 	my $nodes = $details->{nodes};
 	return $DOM->new($nodes->{tag}, %{$nodes->{attr}});
