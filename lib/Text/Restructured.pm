@@ -1,4 +1,4 @@
-# $Id: Restructured.pm 4921 2007-02-21 19:13:14Z mnodine $
+# $Id: Restructured.pm 4937 2007-02-26 17:12:05Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 
 # Distributed under terms of the Perl license, which is the disjunction of
@@ -386,7 +386,7 @@ sub system_message : method {
     }
     my $line = $lineno ? ":$lineno" : '';
     print STDERR "$source$line ($ERROR_LEVELS{$level}/$level) $msg\n"
-	if $level >= $self->{opt}{D}{report} && $source ne 'test data';
+	if $level >= $self->{opt}{D}{report} && $source !~ 'test data';
     return $dom;
 }
 
