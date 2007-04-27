@@ -1,10 +1,12 @@
-# $Id: Restructured.pm 4937 2007-02-26 17:12:05Z mnodine $
+# $Id: Restructured.pm 5053 2007-04-27 15:36:34Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
 
 package Text::Restructured;
+eval { use Text::Restructured::PrestConfig; $VERSION = $Text::Restructured::PrestConfig::VERSION; };
+
 # This package does parsing of reStructuredText files
 
 =pod
@@ -12,6 +14,11 @@ package Text::Restructured;
 =head1 NAME
 
 Text::Restructured - Perl implementation of reStructuredText parser
+
+=head1 DOCUMENTATION
+
+The documentation is in reST format. You can build it with C<make doc>
+or visit L<http://www.prest.de/doc/>.
 
 =begin reST
 =begin Usage

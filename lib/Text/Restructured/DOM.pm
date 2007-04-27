@@ -1,6 +1,6 @@
 package Text::Restructured::DOM;
 
-# $Id: DOM.pm 4904 2007-02-02 17:00:50Z mnodine $
+# $Id: DOM.pm 5055 2007-04-27 15:40:23Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -38,7 +38,7 @@ use vars qw(%PARENT);
 sub new {
     my ($class, $tag, %attr) = @_;
 
-    my $dom = bless { };
+    my $dom = bless { }, $class;
     $dom->{tag} = $tag if defined $tag;
     $dom->{attr} = {%attr} if %attr;
     $dom->{content} = [];
