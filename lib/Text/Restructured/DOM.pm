@@ -1,9 +1,11 @@
-package Text::Restructured::DOM;
-
-# $Id: DOM.pm 5055 2007-04-27 15:40:23Z mnodine $
+# $Id: DOM.pm 5067 2007-05-04 22:38:58Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
+
+package Text::Restructured::DOM;
+
+$VERSION = ( q$Revision: 5055$ ) =~ /(\d+)/g;
 
 # This package contains routines for Document Object Model (DOM) objects.
 # A DOM object is the prest equivalent of a doctree object.

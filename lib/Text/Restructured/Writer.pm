@@ -1,9 +1,11 @@
-package Text::Restructured::Writer;
-
-# $Id: DOM.pm 4580 2006-05-30 22:02:21Z mnodine $
+# $Id: Writer.pm 5067 2007-05-04 22:38:58Z mnodine $
 # Copyright (C) 2006 Intrinsity, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
+
+package Text::Restructured::Writer;
+
+$VERSION = ( q$Revision: 4580$ ) =~ /(\d+)/g;
 
 # This package contains routines for parsing and processing 
 # writer schemas for Text::Restructured.

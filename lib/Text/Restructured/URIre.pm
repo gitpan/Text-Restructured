@@ -1,9 +1,11 @@
-# $Id: URIre.pm 4580 2006-05-30 22:02:21Z mnodine $
+# $Id: URIre.pm 5067 2007-05-04 22:38:58Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
 
 package Text::Restructured::URIre;
+
+$VERSION = ( q$Revision: 4580$ ) =~ /(\d+)/g;
 
 # Declare read-only regular expressions for URI references
 
