@@ -1,4 +1,4 @@
-# $Id: Transforms.pm 5067 2007-05-04 22:38:58Z mnodine $
+# $Id: Transforms.pm 5071 2007-05-07 17:48:13Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -36,6 +36,8 @@
 # Note: These package names were chosen to correspond with those of
 # the original python implementation of docutils.
 package Text::Restructured::docutils::transforms::components;
+
+($VERSION) = q$Revision: 5071 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
