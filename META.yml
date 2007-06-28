@@ -1,11 +1,11 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         Text-Restructured
-version:      0.003030
+version:      0.003031
 version_from: 
 installdirs:  site
 requires:
-    Slay::Makefile:                0
+    Slay::Makefile:                0.03
     Text::ASCIIMathML:             0
 
 distribution_type: module

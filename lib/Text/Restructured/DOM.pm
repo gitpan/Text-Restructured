@@ -1,11 +1,11 @@
-# $Id: DOM.pm 5069 2007-05-07 14:39:59Z mnodine $
+# $Id: DOM.pm 5281 2007-06-27 19:37:45Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
 
 package Text::Restructured::DOM;
 
-($VERSION) = q$Revision: 5069 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5281 $ =~ /(\d+)/g;
 
 # This package contains routines for Document Object Model (DOM) objects.
 # A DOM object is the prest equivalent of a doctree object.
@@ -66,6 +66,15 @@ sub append : method {
 
     @PARENT{@doms} = ($dom) x @doms;
     push @{$dom->{content}}, @doms;
+}
+
+# INSTANCE METHOD.
+# Returns the child with index n in the contents (0-based)
+# Arguments: n
+# Returns: child DOM object or undef
+sub child : method {
+    my ($dom, $n) = @_;
+    return $dom->{content}[$n];
 }
 
 # INSTANCE METHOD.
