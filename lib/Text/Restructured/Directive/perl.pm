@@ -1,4 +1,4 @@
-# $Id: perl.pm 5285 2007-06-27 19:53:06Z mnodine $
+# $Id: perl.pm 5355 2007-07-13 21:53:24Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -8,7 +8,7 @@
 
 package Text::Restructured::Directive::perl;
 
-($VERSION) = q$Revision: 5285 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5355 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -212,22 +212,21 @@ sub main {
     }
     else {
 	my $text;
-	if ($parent->{tag} eq 'substitution_definition') {
+	if ($parent->tag eq 'substitution_definition') {
 	    my @doms;
 	    if (@text == 0) { }
 	    elsif (@text == 1) {
 		my $fake = $DOM->new('fake');
 		$parser->Paragraphs($fake, $text[0], $newsource, 1);
-		my $last = $fake->last();
-		if (@{$fake->{content}} == 1 && $last->{tag} eq 'paragraph') {
+		my $last = $fake->last;
+		if ($fake->contents == 1 && $last->tag eq 'paragraph') {
 		    # Devel::Cover branch 0 1 paragraph always has #PCDATA
-		    chomp $last->{content}[-1]{text}
-		    if defined $last->{content}[-1]{text};
-		    return  @{$last->{content}};
+		    chomp $last->last->{text}
+		    if defined $last->last->{text};
+		    return  $last->contents;
 		}
-		push(@doms, grep($_->{tag} eq 'system_message' && do {
-		    delete $_->{attr}{backrefs}; 1},
-				 @{$fake->{content}}));
+		push(@doms, grep($_->tag eq 'system_message' && do {
+		    delete $_->{attr}{backrefs}; 1}, $fake->contents));
 	    }
 	    else {
 		push @doms, $parser->system_message(3, $source, $lineno,

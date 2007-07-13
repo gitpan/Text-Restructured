@@ -1,4 +1,4 @@
-# $Id: if.pm 5071 2007-05-07 17:48:13Z mnodine $
+# $Id: if.pm 5355 2007-07-13 21:53:24Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -8,7 +8,7 @@
 
 package Text::Restructured::Directive::if;
 
-($VERSION) = q$Revision: 5071 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5355 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -123,17 +123,17 @@ sub main {
 	if $@;
     return '' unless $val;
     my $newsource = qq($name directive at $source, line $lineno);
-    if ($parent->{tag} eq 'substitution_definition') {
+    if ($parent->tag eq 'substitution_definition') {
 	my @doms;
 	my $fake = new Text::Restructured::DOM('fake');
 	$parser->Paragraphs($fake, $content, $newsource, 1);
 	my $last = $fake->last();
-	if (@{$fake->{content}} == 1 && $last->{tag} eq 'paragraph') {
-	    chomp $last->{content}[-1]{text} if $last->{content}[-1]{text};
-	    return @{$last->{content}};
+	if ($fake->contents == 1 && $last->tag eq 'paragraph') {
+	    chomp $last->last->{text} if $last->last->{text};
+	    return $last->contents;
 	}
-	push(@doms, grep($_->{tag} eq 'system_message' && do {
-	    delete $_->{attr}{backrefs}; 1}, @{$fake->{content}}));
+	push @doms, map(do {delete $_->{attr}{backrefs}; $_},
+			grep($_->tag eq 'system_message', $fake->contents));
 	push @doms, $parser->system_message(3, $source, $lineno,
 					    qq(Error in "$name" directive within substitution definition: may contain a single paragraph only.));
 	return @doms;

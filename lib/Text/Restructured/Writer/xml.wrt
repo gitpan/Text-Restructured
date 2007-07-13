@@ -1,5 +1,5 @@
 # -*-perl-*-
-# $Id: xml.wrt 5063 2007-05-03 18:19:53Z mnodine $
+# $Id: xml.wrt 5355 2007-07-13 21:53:24Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -60,7 +60,7 @@ phase PROCESS {
 			 quote_attr(@{$dom->{attr}{$_}}) :
 			 quote_attr($dom->{attr}{$_})),
 			sort keys %{$dom->{attr}})) : '';
-	my $tag = $dom->{tag};
+	my $tag = $dom->tag;
 	return $str eq '' ? "<$tag$attr/>\n" : "<$tag$attr>\n$str</$tag>\n";
     }
 }

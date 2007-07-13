@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl -w
 
-# $Id: prest 4933 2007-02-22 20:29:21Z mnodine $
+# $Id: prest 5361 2007-07-13 22:00:03Z mnodine $
 
 =pod
 =begin reST
@@ -74,7 +74,7 @@ main();
 
 BEGIN {
     use Text::Restructured::PrestConfig;
-    $SVNID = '$Id: prest 4933 2007-02-22 20:29:21Z mnodine $ ';
+    $SVNID = '$Id: prest 5361 2007-07-13 22:00:03Z mnodine $ ';
     $SVNNAME = '$URL: https://mnodine@svn.berlios.de/svnroot/repos/docutils/trunk/prest/prest $ ';
     my $version = $Text::Restructured::PrestConfig::VERSION;
     $version =~ s/(\d\d\d)(?=\d)/$1./g;
@@ -113,7 +113,7 @@ sub main {
     my $rst_parser;
     push @ARGV, '-' unless @ARGV;
     foreach $TOP_FILE (@ARGV) {
-	open F,$TOP_FILE;
+	open F,$TOP_FILE or die "Cannot open $TOP_FILE";
 	my @doc = <F>;
 	close F;
 	my $dom;
@@ -142,16 +142,6 @@ sub EncodingList {
     use Encode;
     @encodings = Encode->encodings();
     return join(', ', @encodings);
-}
-
-# Returns the first defined value in an array.
-# Argument: array
-# Returns: value
-sub FirstDefined {
-    foreach (@_) {
-	return $_ if defined $_;
-    }
-    return;
 }
 
 # Gets list of writers

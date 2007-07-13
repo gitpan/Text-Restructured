@@ -1,11 +1,11 @@
-# $Id: Writer.pm 5071 2007-05-07 17:48:13Z mnodine $
+# $Id: Writer.pm 5355 2007-07-13 21:53:24Z mnodine $
 # Copyright (C) 2006 Intrinsity, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
 
 package Text::Restructured::Writer;
 
-($VERSION) = q$Revision: 5071 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5355 $ =~ /(\d+)/g;
 
 # This package contains routines for parsing and processing 
 # writer schemas for Text::Restructured.
@@ -176,22 +176,25 @@ sub ProcessDOMPhase : method {
 # Arguments: parsed DOM, handler array reference, search string
 sub TraverseDOM : method {
     my ($self, $dom, $phase, $handarray, $searchstring) = @_;
-    my @matches = $dom->{tag} =~ /$searchstring/;
+    my @matches = $dom->tag =~ /$searchstring/;
     my @match = grep(defined $matches[$_], (0 .. $#{$handarray}));
     my $match = $match[0];
     my $str;
 
     push @{$self->{ancestors}}, $dom;
-    foreach my $content (@{$dom->{content}}) {
+    foreach my $content ($dom->contents) {
 	my $val = $self->TraverseDOM($content, $phase, $handarray,
 				     $searchstring);
 	$content->{val} = $val;
     }
     my $substr = join('',map(defined $_->{val} ? $_->{val} : '',
-			     @{$dom->{content}}));
+			     $dom->contents));
     pop @{$self->{ancestors}};
     if (defined $match) {
-	print STDERR "$phase: $dom->{tag}\n" if $self->{opt}{d} >= 1;
+	if ($self->{opt}{d} >= 1) {
+	    my $tag = $dom->tag;
+	    print STDERR "$phase: $tag\n" ;
+	}
 	$str = eval { &{$handarray->[$match]{code}}
 		      ($dom, $substr, $self, $phase) };
 	print STDERR "$str\n"

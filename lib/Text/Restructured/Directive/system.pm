@@ -1,4 +1,4 @@
-# $Id: system.pm 5071 2007-05-07 17:48:13Z mnodine $
+# $Id: system.pm 5355 2007-07-13 21:53:24Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -8,7 +8,7 @@
 
 package Text::Restructured::Directive::system;
 
-($VERSION) = q$Revision: 5071 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5355 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -139,7 +139,7 @@ EOS
 	$lb->append($DOM->newPCDATA($text));
 	return $lb;
     }
-    elsif ($parent->{tag} eq 'substitution_definition') {
+    elsif ($parent->tag eq 'substitution_definition') {
 	chomp $text;
 	return $DOM->newPCDATA($text);
     }
