@@ -1,4 +1,4 @@
-# $Id: system.pm 5355 2007-07-13 21:53:24Z mnodine $
+# $Id: system.pm 5377 2007-07-17 20:00:46Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -8,7 +8,7 @@
 
 package Text::Restructured::Directive::system;
 
-($VERSION) = q$Revision: 5355 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5377 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -112,11 +112,11 @@ sub main {
 
     $args =~ s/\n/ /g;
     my $code = << "EOS";
-my \$text = `\Q$args\E 2>/tmp/$$`;
-open ERR, "/tmp/$$";
+my \$text = `\Q$args\E 2>$$.stderr`;
+open ERR, "$$.stderr";
 my \$errmsg = <ERR>;
 close ERR;
-unlink "/tmp/$$";
+unlink "$$.stderr";
 (\$text, \$?, \$errmsg)
 EOS
     my ($text, $syserr, $errmsg) = $Perl::safe->reval($code);
