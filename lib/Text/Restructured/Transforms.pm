@@ -1,4 +1,4 @@
-# $Id: Transforms.pm 5355 2007-07-13 21:53:24Z mnodine $
+# $Id: Transforms.pm 5428 2007-09-10 16:10:31Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -37,7 +37,7 @@
 # the original python implementation of docutils.
 package Text::Restructured::docutils::transforms::components;
 
-($VERSION) = q$Revision: 5355 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5428 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -856,10 +856,11 @@ sub IndTargets {
 			     delete $_->{attr}{refname};
 			 }
 			 else {
-			     my $refid =
-				 ($_->{attr}{ids} && $_->{attr}{ids}[0] ||
-				  $_->{attr}{names} && $_->{attr}{names}[0]);
-			     $_->{attr}{refid} = $refid;
+ 			     my $new_refid =
+ 				 ($_->{attr}{ids} && $_->{attr}{ids}[0] ||
+ 				  $_->{attr}{names} && $_->{attr}{names}[0] ||
+				  $refid);
+			     $_->{attr}{refid} = $new_refid;
 			     delete $_->{attr}{ids};
 			     delete $_->{attr}{names};
 			 }

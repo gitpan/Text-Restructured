@@ -65,6 +65,7 @@ sub main {
 	($parser, $name, 3, $source, $lineno, "Argument(s) required.", $lit)
 	if $args =~ /^$/;
 
+    # use Proc::Reliable;
     if (! $Perl::safe) {
 	# Create a safe compartment for the Perl to run
 	use Safe;

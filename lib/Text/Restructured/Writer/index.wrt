@@ -1,5 +1,5 @@
 # -*-perl-*-
-# $Id: index.wrt 5359 2007-07-13 21:57:38Z mnodine $
+# $Id: index.wrt 5431 2007-09-10 16:22:38Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -308,7 +308,7 @@ phase PROCESS = {
 	# Used in closure of collectTargets
 	%INLINE_TARGETS = ();
 	@INDIRECT_TARGETS = ();
-	undef;
+	return undef;
 
 	# A recursive subroutine to collect all inline internal targets 
 	# and indirect targets.
@@ -339,6 +339,7 @@ phase PROCESS = {
 	my ($dom, $str, $writer) = @_;
 	# Handle all the interpreted roles
 	return unless exists $Text::Restructured::ROLES{$dom->tag};
+	return if $dom->tag eq 'raw' && $dom->{attr}{format} !~ /\bindex\b/;
 	return QuoteStart($dom, ":${\$dom->tag}:`$str`", $writer);
     }
 }

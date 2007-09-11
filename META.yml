@@ -1,12 +1,12 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         Text-Restructured
-version:      0.003033
+version:      0.003034
 version_from: 
 installdirs:  site
 requires:
-    Slay::Makefile:                0.03
-    Text::ASCIIMathML:             0
+    Slay::Makefile::Gress:         0
+    Text::ASCIIMathML:             0.5
 
 distribution_type: module
 generated_by: ExtUtils::MakeMaker version 6.30
