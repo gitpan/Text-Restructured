@@ -1,4 +1,4 @@
-# $Id: code_block.pm 5071 2007-05-07 17:48:13Z mnodine $
+# $Id: code_block.pm 5449 2007-09-12 20:17:41Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -8,7 +8,7 @@
 
 package Text::Restructured::Directive::code_block;
 
-($VERSION) = q$Revision: 5071 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5449 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -92,7 +92,7 @@ sub main {
 	if $options->{file} && $content !~ /^$/;
 
     my ($states_bin) = grep -x "$_/states",
-	qw(/bin /usr/bin /usr/local/bin);
+       qw(/bin /usr/bin /usr/local/bin), split(/:/, $ENV{PATH});
     my $subdir = 'Text/Restructured/Directive';
     my $st_name = $parser->{opt}{D}{code_block_states_file} ||
 	"$subdir/rst.st";

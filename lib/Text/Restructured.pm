@@ -1,4 +1,4 @@
-# $Id: Restructured.pm 5432 2007-09-10 16:23:01Z mnodine $
+# $Id: Restructured.pm 5450 2007-09-12 20:18:53Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -6,7 +6,7 @@
 package Text::Restructured;
 
 # N.B.: keep version in quotes so trailing 0's are not lost
-$VERSION = '0.003035';
+$VERSION = '0.003036';
 
 # This package does parsing of reStructuredText files
 

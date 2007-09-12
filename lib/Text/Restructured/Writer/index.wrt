@@ -1,5 +1,5 @@
 # -*-perl-*-
-# $Id: index.wrt 5431 2007-09-10 16:22:38Z mnodine $
+# $Id: index.wrt 5447 2007-09-12 20:15:37Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -266,7 +266,7 @@ phase PROCESS = {
 	    if $fileName !~ s/\.[^\.\/]*$/$filename_ext\.$file_suffix/o;
 	my $title = $str ? $str : $fileName;
 	my ($tname, $tdom);
-	foreach (keys %INLINE_TARGETS) {
+	foreach (sort keys %INLINE_TARGETS) {
 	    my $tdom = $INLINE_TARGETS{$_};
 	    my $loc = ($tdom->{section} && $title ne $tdom->{section}) ?
 		($doc_titles ? "$title: $tdom->{section}" : $tdom->{section} )
