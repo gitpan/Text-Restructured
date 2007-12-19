@@ -1,11 +1,11 @@
-# $Id: Writer.pm 5355 2007-07-13 21:53:24Z mnodine $
+# $Id: Writer.pm 5474 2007-12-18 15:21:20Z mnodine $
 # Copyright (C) 2006 Intrinsity, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
 
 package Text::Restructured::Writer;
 
-($VERSION) = q$Revision: 5355 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5474 $ =~ /(\d+)/g;
 
 # This package contains routines for parsing and processing 
 # writer schemas for Text::Restructured.
@@ -223,7 +223,10 @@ sub DoEval : method {
     }
     $subname =~ s/\W/_/g;
     my $sub = "package Text::Restructured::Writer::Eval;sub $subname {\n $str}";
-    my $line_directive = defined $self->{opt}{D}{no_line_directives} ? "" :
+    # Turn off line directives if -D no_line_directives or running 
+    # under debugger
+    my $line_directive =
+	defined $self->{opt}{D}{no_line_directives} || $^P & 0x10 ? "" :
 	qq(\#line $lineno "$file"\n);
     my $val = eval("$line_directive$sub");
     die "Error: $line: $@" if $@;
