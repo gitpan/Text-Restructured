@@ -1,10 +1,11 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         Text-Restructured
-version:      0.003037
+version:      0.003038
 version_from: 
 installdirs:  site
 requires:
+    HTML::Entities:                0
     Safe::World:                   0
     Slay::Makefile::Gress:         0
     Text::ASCIIMathML:             0.5

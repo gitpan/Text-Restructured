@@ -1,11 +1,11 @@
-# $Id: Writer.pm 5474 2007-12-18 15:21:20Z mnodine $
+# $Id: Writer.pm 5745 2008-12-02 19:38:01Z mnodine $
 # Copyright (C) 2006 Intrinsity, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
 
 package Text::Restructured::Writer;
 
-($VERSION) = q$Revision: 5474 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5745 $ =~ /(\d+)/g;
 
 # This package contains routines for parsing and processing 
 # writer schemas for Text::Restructured.
@@ -76,7 +76,7 @@ sub ParseSchema : method {
     die "Cannot find schema for writer $writer" unless @dirs;
     $file = "$dirs[0]/Text/Restructured/Writer/$file.wrt";
     no strict 'refs';
-    # Devel::Cover branch 0 0 Cannot force open failure
+    # uncoverable branch true note:Cannot force open failure
     open $newfile,$file or die "Cannot open writer file $file";
 
     my %phases;
@@ -228,6 +228,10 @@ sub DoEval : method {
     my $line_directive =
 	defined $self->{opt}{D}{no_line_directives} || $^P & 0x10 ? "" :
 	qq(\#line $lineno "$file"\n);
+    # uncoverable statement count:13
+    # uncoverable statement count:14
+    # uncoverable statement count:15
+    # uncoverable statement count:16
     my $val = eval("$line_directive$sub");
     die "Error: $line: $@" if $@;
     $self->{sub}{$subname} = \&{$Text::Restructured::Writer::Eval::{$subname}};

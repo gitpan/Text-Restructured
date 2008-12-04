@@ -1,4 +1,4 @@
-# $Id: Transforms.pm 5428 2007-09-10 16:10:31Z mnodine $
+# $Id: Transforms.pm 5784 2008-12-04 15:41:26Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -37,7 +37,7 @@
 # the original python implementation of docutils.
 package Text::Restructured::docutils::transforms::components;
 
-($VERSION) = q$Revision: 5428 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 5784 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -475,7 +475,7 @@ sub Contents {
     my $backlinks =
 	defined $details->{backlinks} ? $details->{backlinks} : '';
     # First we compile the table of contents
-    # Devel::Cover branch 0 1 parent always has ids
+    # uncoverable branch false note:parent always has ids
     my $contid = $parent->{attr}{ids}[0] if defined $parent->{attr}{ids};
 
     my $bl = $DOM->new('bullet_list');
@@ -626,13 +626,14 @@ BEGIN {
 }
 
 # Run-time global variables
-use vars qw($AUTO_FOOTNOTE_REF $LAST_AUTO_FOOTNOTE @AUTO_FOOTNOTES);
+use vars qw($AUTO_FOOTNOTE_REF $LAST_AUTO_FOOTNOTE @AUTO_FOOTNOTES
+	    @FOOTNOTE_SYMBOLS);
 
 # Create a closure for some "static" variables
 BEGIN {
-my @FOOTNOTE_SYMBOLS = ("*", chr 0x2020, chr 0x2021, chr 0xa7,
-			chr 0xb6, '#', chr 0x2660, chr 0x2665,
-			chr 0x2666, chr 0x2663);
+@FOOTNOTE_SYMBOLS = ("*", chr 0x2020, chr 0x2021, chr 0xa7,
+		     chr 0xb6, '#', chr 0x2660, chr 0x2665,
+		     chr 0x2666, chr 0x2663);
 my $NEXT_SYMBOL_FOOTNOTE = 0;
 
 # Processes a docutils.transforms.references.AutoFootnotes transform.
@@ -711,7 +712,7 @@ sub IndTargets {
 			(defined $next->{attr}{refname} ||
 			 ! grep(/ref(uri|id)/, keys %{$next->{attr}}))) {
 		     # This is either an indirect target or a bare target
-		     # Devel::Cover branch 0 0 Assert can't have badtarget
+		     # uncoverable branch true note:Assert can't have badtarget
 		     return $dom if $next->{badtarget};
 		     
 		     if (defined $next->{attr}{refname}) {
@@ -722,7 +723,8 @@ sub IndTargets {
 				&& ! $seen{$next})
 			 {
 			     push @chain, $next;
-			     # Devel::Cover +2 branch 0 1 Defensive programming
+			     # Devel::Cover +2 branch 0 1 
+			     # uncoverable branch false note:Defensive programming
 			     my @targets =
 				 @{$parser->{ALL_TARGET_NAMES}{$name}}
 			     if defined $parser->{ALL_TARGET_NAMES}{$name};
@@ -741,7 +743,7 @@ sub IndTargets {
 				 return $dom;
 			     }
 			     $next = $targets[0];
-			     # Devel::Cover branch 0 0 Defensive programming
+			     # uncoverable branch true note:Defensive programming
 			     return $dom unless $next;
 			 }
 		     }
@@ -762,7 +764,7 @@ sub IndTargets {
 			     $seen{$next} = $next;
 			     push @chain, $next;
 			     unshift @ids, @{$next->{attr}{ids}};
-			     # Devel::Cover branch 0 1 Defensive programming
+			     # uncoverable branch false note:Defensive programming
 			     unshift @names, @{$next->{attr}{names}}
 			     if defined $next->{attr}{names};
 			     $next = $next->next($ignores);
@@ -1048,7 +1050,7 @@ sub References {
 		 ! defined $dom->{attr}{refid}) {
 		 my $target;
 		 my $name = $dom->{attr}{refname};
-		 # Devel::Cover branch 1 1 Defensive programming
+		 # uncoverable branch false count:2 note:Defensive programming
 		 if (defined $name) {
 		     my @targets = @{$parser->{TARGET_NAME}{target}{$name}}
 		     if defined $parser->{TARGET_NAME}{target}{$name};
@@ -1098,7 +1100,7 @@ sub References {
 			 return $prob;
 		     }
 		     my $dest = $target->{forward} || $target;
-		     # Devel::Cover branch 3 1 Defensive programming
+		     # uncoverable branch false count:4 note:Defensive programming
 		     if ($dest->tag eq 'target' &&
 			 defined $dest->{attr}{refuri}) {
 			 $target->{type} = "External"
@@ -1112,7 +1114,7 @@ sub References {
 		     }
 		     elsif (defined $target->{attr}{refid}) {
 			 # Anonymous target chained to external target
-			 # Devel::Cover branch 0 1 Defensive programming
+			 # uncoverable branch false note:Defensive programming
 			 $target->{type} = "External"
 			     unless defined $target->{type};
 			 my @targets = @{$parser->{ALL_TARGET_IDS}
@@ -1166,7 +1168,7 @@ sub Unreferenced {
 		 my $name =
 		     defined $dom->{attr}{names} && $dom->{attr}{names}[0] ||
 		     $dom->{attr}{refid};
-		 # Devel::Cover branch 0 1 Assert defined $name
+		 # uncoverable branch false note:Assert defined $name
  		 my $id = defined $name ? qq("$name") :
 		     qq(id="$dom->{attr}{ids}[0]");
 		 push @errs, $parser->system_message
