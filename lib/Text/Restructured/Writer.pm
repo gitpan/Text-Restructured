@@ -1,11 +1,11 @@
-# $Id: Writer.pm 5745 2008-12-02 19:38:01Z mnodine $
+# $Id: Writer.pm 6236 2010-03-01 20:25:46Z mnodine $
 # Copyright (C) 2006 Intrinsity, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
 
 package Text::Restructured::Writer;
 
-($VERSION) = q$Revision: 5745 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 6236 $ =~ /(\d+)/g;
 
 # This package contains routines for parsing and processing 
 # writer schemas for Text::Restructured.
@@ -35,7 +35,7 @@ sub new {
     my $writer = bless { opt => { %$opt } }, $class;
     # Handle options processing
     foreach (keys %{$opt->{W}}) {
-	$writer->{opt}{W}{$_} = 1
+	$writer->{opt}{W}{$_} = \''  #'
 	    if defined $writer->{opt}{W}{$_} && $writer->{opt}{W}{$_} eq '';
     }
     # Initialize defined variables
@@ -46,6 +46,7 @@ sub new {
     }
     $writer->{opt}{d} ||= 0;
     $writer->{opt}{w} = $writer_name;
+    # uncoverable branch false note:prest initializes to empty hash reference
     $writer->{opt}{D} = {} unless $writer->{opt}{D};
     $writer->ParseSchema($writer_name);
     $writer->Precompile();

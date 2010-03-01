@@ -1,4 +1,4 @@
-# $Id: code_block.pm 5449 2007-09-12 20:17:41Z mnodine $
+# $Id: code_block.pm 6243 2010-03-01 20:52:02Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -8,7 +8,7 @@
 
 package Text::Restructured::Directive::code_block;
 
-($VERSION) = q$Revision: 5449 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 6243 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -80,7 +80,7 @@ BEGIN {
 # Returns: array of DOM objects
 sub main {
     my($parser, $name, $parent, $source, $lineno, $dtext, $lit) = @_;
-    my @optlist = qw(color file level numbered);
+    my @optlist = qw(class color file level numbered);
     my $dhash = Text::Restructured::Directive::parse_directive
 	($parser, $dtext, $lit, $source, $lineno, \@optlist);
     my($args, $content, $content_lineno, $options) =
@@ -141,6 +141,8 @@ sub main {
 	    }
 	    @errs = $parser->Inline($pl, $markup, $source, $content_lineno);
 	}
+	$pl->{attr}{classes} = [ $options->{class} ]
+	    if defined $options->{class};
 	return $pl, @errs;
     }
 
@@ -162,6 +164,8 @@ sub main {
     }
     $content = numbered($content) if defined $options->{numbered};
     
+    $lb->{attr}{classes} = [ $options->{class} ]
+	if defined $options->{class};
     $lb->append($DOM->newPCDATA($content));
     return $lb;
 }

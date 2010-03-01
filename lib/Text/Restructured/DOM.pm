@@ -1,11 +1,11 @@
-# $Id: DOM.pm 5356 2007-07-13 21:55:18Z mnodine $
+# $Id: DOM.pm 6235 2010-03-01 20:23:51Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
 
 package Text::Restructured::DOM;
 
-($VERSION) = q$Revision: 5356 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 6235 $ =~ /(\d+)/g;
 
 # This package contains routines for Document Object Model (DOM) objects.
 # A DOM object is the prest equivalent of a doctree object.
@@ -60,12 +60,13 @@ sub newPCDATA {
 # INSTANCE METHOD.
 # Appends to the contents of a DOM object.
 # Arguments: DOM objects to append
-# Returns: The new number of contents
+# Returns: The DOM object
 sub append : method {
     my ($dom, @doms) = @_;
 
     @PARENT{@doms} = ($dom) x @doms;
     push @{$dom->{content}}, @doms;
+    return $dom;
 }
 
 # INSTANCE METHOD.
@@ -329,8 +330,7 @@ sub Parse {
     my $main;
     my @text = split /\n/, $text;
     foreach (@text) {
-	/(\s*).*/;
-	my $spaces = $1;
+	my ($spaces) = /^(\s*)/;
 	my $indent = length($spaces);
 	if (@stack > 0) {
 	    my $i;
