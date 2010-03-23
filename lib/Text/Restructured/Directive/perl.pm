@@ -1,4 +1,4 @@
-# $Id: perl.pm 6244 2010-03-01 20:53:35Z mnodine $
+# $Id: perl.pm 6285 2010-03-23 20:10:28Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -8,7 +8,7 @@
 
 package Text::Restructured::Directive::perl;
 
-($VERSION) = q$Revision: 6244 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 6285 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -48,10 +48,10 @@ use within the perl code:
 ``@INCLUDES``
    Array of [filename, linenumber] pairs of files which have included this one.
 ``$opt_<x>`` or ``$opt{x}``
-   The ``<x>`` option from the command line.  Changing one of these 
-   variables has no effect upon the parser.  If you need to change one
-   of the -D options to affect subsequent parsing, use
-   ``$PARSER->{opt}{D}{option}``.
+   The ``<x>`` option from the command line.  Changing one of these
+   variables has no effect upon the parser.  However, you can
+   effectively set the ``-D x=y`` option, possibly affecting
+   subsequent parsing, by assigning ``y`` to ``$PARSER->{opt}{D}{x}``.
 ``$PARSER``
    The Text::Restructured parser object to allow text parsing within a
    perl directive.

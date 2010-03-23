@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Text-Restructured
-version:             0.003041
+version:             0.003042
 abstract:            Perl implementation of reStructuredText parser
 license:             ~
 author:              

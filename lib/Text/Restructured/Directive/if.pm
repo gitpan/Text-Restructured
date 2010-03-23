@@ -1,4 +1,4 @@
-# $Id: if.pm 5476 2007-12-18 15:55:04Z mnodine $
+# $Id: if.pm 6284 2010-03-23 20:06:59Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -8,14 +8,15 @@
 
 package Text::Restructured::Directive::if;
 
-($VERSION) = q$Revision: 5476 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 6284 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
 =begin Description
 Executes its argument as a perl expression and returns its
 content if the perl expression is true.  The content is
-interpreted as reStructuredText.  It has no options. It processes
+interpreted as reStructuredText.  It has no options. It has the same
+variables available to it as the ``perl::`` directive.  It processes
 the following defines:
 
 -D perl='perl-code'

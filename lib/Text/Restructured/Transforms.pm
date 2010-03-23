@@ -1,4 +1,4 @@
-# $Id: Transforms.pm 6237 2010-03-01 20:27:46Z mnodine $
+# $Id: Transforms.pm 6276 2010-03-23 15:50:02Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -37,7 +37,7 @@
 # the original python implementation of docutils.
 package Text::Restructured::docutils::transforms::components;
 
-($VERSION) = q$Revision: 6237 $ =~ /(\d+)/g;
+($VERSION) = q$Revision: 6276 $ =~ /(\d+)/g;
 
 =pod
 =begin reST
@@ -918,8 +918,9 @@ sub CitationReferences {
 
     # Link references to their definitions if they exist
     my (@errs, $cr);
+    my %recurse;		# Used to detect recursion
     $cr = sub {
-	my($dom) = @_;
+	my($dom, $when, $recurse_hr) = @_;
 
 	my $tag = $dom->tag;
 	if ($tag =~ /^(?:(citation|substitution)_reference)$/) { 
@@ -944,6 +945,15 @@ sub CitationReferences {
 		return $prob;
 	    }
 	    if ($tag eq 'substitution_reference') {
+		if ($recurse_hr->{$name}) {
+		    my ($prob, $refid, $id) =
+			$parser->problematic($dom->{lit});
+		    push @errs, $parser->system_message
+			(3, $dom->{source}, $dom->{lineno},
+			 qq(Substitution of "$name" involved recursion.), '',
+			 ids=>[ $refid ], backrefs=>[ $id ]);
+		    return $prob;
+		}
 		if ($target->{attr}{ltrim} || $target->{attr}{rtrim}) {
 		    my $parent = $dom->parent();
 		    my $idx = $parent->index($dom);
@@ -957,10 +967,12 @@ sub CitationReferences {
 		}
 		my @content = $target->contents;
 		my $i;
-		for ($i=0; $i<@content; $i++) {
-		    splice(@content, $i, 1, &$cr($content[$i]))
-			   if $content[$i]->tag eq 'substitution_reference';
-		}
+ 		for ($i=0; $i<@content; $i++) {
+		    $recurse_hr->{$name}++;
+ 		    splice(@content, $i, 1, &$cr($content[$i], $when, $recurse_hr))
+ 			   if $content[$i]->tag eq 'substitution_reference';
+		    $recurse_hr->{$name}--;
+ 		}
 		if ($dom->{attr}{classes}) {
 		    my $inline = $DOM->new('inline',
 					   classes => $dom->{attr}{classes});
@@ -976,7 +988,7 @@ sub CitationReferences {
 	}
 	return $dom;
     };
-    $dom->Reshape ($cr, 'pre');
+    $dom->Reshape ($cr, 'post', \%recurse);
     $dom->append(@errs) if @errs;
 }
 
