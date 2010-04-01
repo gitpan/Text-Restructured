@@ -1,5 +1,5 @@
 # -*-perl-*-
-# $Id: latex.wrt 6241 2010-03-01 20:47:30Z mnodine $
+# $Id: latex.wrt 6298 2010-04-01 21:06:12Z mnodine $
 # Copyright (C) 2002-2005 Freescale Semiconductor, Inc.
 # Distributed under terms of the Perl license, which is the disjunction of
 # the GNU General Public License (GPL) and the Artistic License.
@@ -1255,7 +1255,7 @@ EOS
 	if ($dom->first->tag eq 'decoration') {
 	    $decoration = $dom->first->{val};
 	    shift @{$dom->{content}};
-	    $str = join('', map($_->{val}, @{$dom->{content}}));
+	    $str = join('', map($_->{val} || '', @{$dom->{content}}));
 	}
 	my @doc = ("\\documentclass" . ($documentclass_opts ne '' ?
 					"[$documentclass_opts]" : '') .
